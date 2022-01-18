@@ -5,8 +5,8 @@ import React, { useState } from "react";
 import Alert from "./components/Utils/Alert";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Handwritten from "./components/Handwritten";
 import PageNotFound from "./components/PageNotFound";
+import Whatschat from "./components/Whatschat/Whatschat";
 
 function App() {
   // mode = dark or light
@@ -56,13 +56,8 @@ function App() {
 
           <Route
             exact
-            path="/handwritten"
-            element={
-              <Handwritten               
-                mode={mode}
-                showAlert={showAlert}
-              />
-            }
+            path="/whatschat"
+            element={<Whatschat mode={mode} showAlert={showAlert} />}
           />
           <Route path="*" element={<PageNotFound />} />
         </Routes>

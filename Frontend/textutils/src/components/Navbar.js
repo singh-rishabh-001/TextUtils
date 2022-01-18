@@ -36,8 +36,8 @@ export default function Navbar(props) {
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/handwritten">
-                To Handwritten
+              <Link className="nav-link" to="/whatschat">
+                WhatsApp Chat
               </Link>
             </li>
           </ul>
