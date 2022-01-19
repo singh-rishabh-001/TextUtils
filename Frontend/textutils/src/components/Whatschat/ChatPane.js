@@ -7,7 +7,12 @@ export default function ChatPane(props) {
       <div style={props.mode === "light" ? chatStyleLight : chatStyleDark}>
         {props.chat.length > 0
           ? props.chat.map((item, index) => (
-              <ChatMessage key={index} item={item} you={props.you} />
+              <ChatMessage
+                key={index}
+                item={item}
+                you={props.you}
+                mode={props.mode}
+              />
             ))
           : "No Chats"}
       </div>
@@ -22,7 +27,7 @@ const chatStyleLight = {
 };
 const chatStyleDark = {
   background:
-    "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 39%, rgba(0,77,93,1) 100%)",
+    "linear-gradient(90deg, rgba(6,3,36,1) 0%, rgba(24,24,47,1) 35%, rgba(3,54,65,1) 100%)",
 
   backgroundAttachment: "fixed",
   minHeight: "91vh",

@@ -22,13 +22,11 @@ const gridContainerStyle = {
   gridGap: "3px",
   gridTemplateColumns: "30% auto",
   height: "91vh",
-  backgroundColor: "yellow",
 };
 const item1Style = {
-  backgroundColor: "gray",
+  // ls
 };
 const item2Style = {
-  backgroundColor: "lightpink",
   overflowY: "scroll",
   scrollbarColor: "rgba(var(--black-rgb),.2) rgba(var(--white-rgb),.1)",
   scrollbarWidth: "thin",

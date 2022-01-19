@@ -49,6 +49,12 @@ class ChatView(APIView):
                         else:
                             msg['person'] = personMsg[0]
                             msg['message'] = ": ".join(personMsg[1:])
+
+                        if (len(chat) > 0 and chat[-1]['date'] == datetime[0]):
+                            msg['showdate'] = "no"
+                        else:
+                            msg['showdate'] = "yes"
+
                         chat.append(msg)
                     else:
                         # chat not starting with date time it means it a new line message of previous message
