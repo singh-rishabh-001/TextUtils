@@ -23,6 +23,7 @@ class ChatView(APIView):
         if chat_serializer.is_valid():
             file = request.FILES['chatfile']
             chat = []
+            persons = set()
 
             for line in file:
                 line = line.decode("utf-8")
@@ -48,6 +49,7 @@ class ChatView(APIView):
                             msg['message'] = ": ".join(personMsg)
                         else:
                             msg['person'] = personMsg[0]
+                            persons.add(personMsg[0])
                             msg['message'] = ": ".join(personMsg[1:])
 
                         if (len(chat) > 0 and chat[-1]['date'] == datetime[0]):
@@ -63,7 +65,7 @@ class ChatView(APIView):
                     print("--------------------------------------")
                     print(e)
                     print("--------------------------------------")
-            return Response(data=chat, status=status.HTTP_200_OK)
+            return Response(data=[persons, chat], status=status.HTTP_200_OK)
         else:
             print(chat_serializer.error_messages)
             return Response(data=chat_serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)

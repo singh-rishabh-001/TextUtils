@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Button from "../Utils/Button";
 import serverIP from "../../Server";
-
+import FileUploaderPaneContainer from "./StyledComponents/FileUploaderPaneContainer";
 function FileUploaderPane(props) {
   /*
   1. setChat : a function to set the chat list for the chat pane
@@ -10,10 +10,11 @@ function FileUploaderPane(props) {
   3. setLoading: a function to set the state of loading (true or false), when the api call is made
   4. loading: a flag to tell whether page is loading or not
   5. showAlert(msg,type) : a function which if called will show the alert
+  6. setYou : which sets which person is "you"
   */
 
   const [chatFile, setChatFile] = useState(null);
-
+  const [persons, setPersons] = useState(null);
   const handleChatFile = (event) => {
     setChatFile(event.target.files[0]);
   };
@@ -37,13 +38,13 @@ function FileUploaderPane(props) {
         },
       })
       .then((res) => {
-        // console.log(res.data);
-        props.setChat(res.data);
+        setPersons(res.data[0]);
+        props.setChat(res.data[1]);
       })
       .catch((error) => {
-        if (error.response.status == 400) {
+        if (error.response.status === 400) {
           props.showAlert("Unsupported File !!!", "danger");
-        } else if (error.response.status == 500) {
+        } else if (error.response.status === 500) {
           props.showAlert("Servor Error !!!", "danger");
         } else {
           props.showAlert("Some Error Occured !!!", "danger");
@@ -53,8 +54,11 @@ function FileUploaderPane(props) {
         props.setLoading(false);
       });
   };
+  const handleOnChange = (e) => {
+    props.setYou(e.target.value);
+  };
   return (
-    <div style={props.mode === "light" ? containerLight : containerDark}>
+    <FileUploaderPaneContainer mode={props.mode}>
       <div className="container text-center">
         <div className="mb-3">
           <h3>WhatsApp Chat from Text File</h3>
@@ -76,6 +80,21 @@ function FileUploaderPane(props) {
               }}
             />
           </p>
+
+          <p>
+            <label>Who are you?</label>
+            <br />
+            <select id="whoareyou" onChange={handleOnChange} defaultValue={""}>
+              <option value="">--Select--</option>
+              {persons
+                ? persons.map((item, index) => (
+                    <option value={item} key={index}>
+                      {item}
+                    </option>
+                  ))
+                : ""}
+            </select>
+          </p>
           {props.loading ? (
             ""
           ) : (
@@ -88,20 +107,8 @@ function FileUploaderPane(props) {
           )}
         </form>
       </div>
-    </div>
+    </FileUploaderPaneContainer>
   );
 }
-const containerLight = {
-  background:
-    "linear-gradient(90deg, rgba(231,230,255,1) 0%, rgba(241,241,255,1) 39%, rgba(206,247,255,1) 100%)",
-  minHeight: "91vh",
-  backgroundAttachment: "fixed",
-  color: "black",
-};
-const containerDark = {
-  background: "linear-gradient(315deg, #2d3436 0%, #000000 74%)",
-  minHeight: "91vh",
-  backgroundAttachment: "fixed",
-  color: "#cccccc",
-};
+
 export default FileUploaderPane;

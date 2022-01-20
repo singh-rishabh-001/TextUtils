@@ -2,21 +2,8 @@ import React, { useState } from "react";
 import FileUploaderPane from "./FileUploaderPane";
 import ChatPane from "./ChatPane";
 import LoadingWheel from "./LoadingWheel";
+import WhatschatContainer from "./StyledComponents/WhatschatContainer";
 
-function fadeIn() {
-  try {
-    document.getElementById("whatschatpage").style.opacity = "0.2";
-  } catch (err) {
-    const e = err;
-  }
-}
-function fadeOut() {
-  try {
-    document.getElementById("whatschatpage").style.opacity = "1";
-  } catch (err) {
-    const e = err;
-  }
-}
 function Whatschat(props) {
   /*
   1. mode : its values are "dark" or "light", which tells whether the application in dark or light mode
@@ -25,11 +12,11 @@ function Whatschat(props) {
 
   const [chat, setChat] = useState("");
   const [loading, setLoading] = useState(false);
+  const [you, setYou] = useState("NULL");
   return (
     <>
       {loading ? <LoadingWheel /> : ""}
-
-      <div style={gridContainerStyle} id="whatschatpage">
+      <WhatschatContainer>
         <div style={item1Style}>
           <FileUploaderPane
             setChat={setChat}
@@ -37,24 +24,16 @@ function Whatschat(props) {
             loading={loading}
             setLoading={setLoading}
             showAlert={props.showAlert}
+            setYou={setYou}
           />
         </div>
         <div style={item2Style}>
-          <ChatPane chat={chat} you={"Rishabh Singh"} mode={props.mode} />
+          <ChatPane chat={chat} you={you} mode={props.mode} />
         </div>
-      </div>
-      {loading ? fadeIn() : fadeOut()}
+      </WhatschatContainer>
     </>
   );
 }
-const gridContainerStyle = {
-  display: "grid",
-  grid: "100%",
-  gridAutoFlow: "column",
-  gridGap: "3px",
-  gridTemplateColumns: "30% auto",
-  height: "91vh",
-};
 const item1Style = {
   // ls
 };

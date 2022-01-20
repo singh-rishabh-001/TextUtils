@@ -1,0 +1,17 @@
+@media screen and (max-width: 750px) {
+    #whatschatpage{
+        display: grid;  
+        grid:100%;            
+        grid-gap: 3px;
+        grid-template-rows: 10% auto;      
+    }
+}
+@media screen and (min-width: 750px) {
+    #whatschatpage{
+        display: grid;  
+        grid:100%;
+        grid-gap: 3px;
+        grid-template-columns: 30% auto;
+        height: 91vh;    
+    }
+}

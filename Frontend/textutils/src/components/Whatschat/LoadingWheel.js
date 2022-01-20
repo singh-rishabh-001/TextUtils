@@ -1,16 +1,11 @@
 import React from "react";
-import "../../assets/loadingwheel.css";
+import LoadingWrapper from "./StyledComponents/LoadingWrapper";
 
 function LoadingWheel() {
   return (
-    <div style={loadingStyleContainer}>
+    <LoadingWrapper>
       <span id="loading"></span>
-    </div>
+    </LoadingWrapper>
   );
 }
-const loadingStyleContainer = {
-  position: "absolute",
-  left: "50%",
-  top: "50%",
-};
 export default LoadingWheel;
