@@ -2,6 +2,12 @@ import React from "react";
 import ChatMessage from "./ChatMessage";
 
 export default function ChatPane(props) {
+  /*
+  1. chat : it is a list containing all the messages
+  2. you: it the name of the person u want the chat in right side of pane
+  3. mode : its values are "dark" or "light", which tells whether the application in dark or light mode
+*/
+
   return (
     <div>
       <div style={props.mode === "light" ? chatStyleLight : chatStyleDark}>

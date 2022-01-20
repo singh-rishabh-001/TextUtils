@@ -1,20 +1,35 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Button from "../Utils/Button";
+import serverIP from "../../Server";
 
 function FileUploaderPane(props) {
+  /*
+  1. setChat : a function to set the chat list for the chat pane
+  2. mode : its values are "dark" or "light", which tells whether the application in dark or light mode
+  3. setLoading: a function to set the state of loading (true or false), when the api call is made
+  4. loading: a flag to tell whether page is loading or not
+  5. showAlert(msg,type) : a function which if called will show the alert
+  */
+
   const [chatFile, setChatFile] = useState(null);
-  const [loading, setLoading] = useState(false);
+
   const handleChatFile = (event) => {
     setChatFile(event.target.files[0]);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!chatFile) {
+      props.showAlert("Select a txt file!!", "danger");
+      return;
+    } else {
+      props.showAlert("Uploading...", "primary");
+    }
     let form_data = new FormData();
     form_data.append("chatfile", chatFile, chatFile.name);
-    let url = "http://localhost:8000/api/wchat/";
-    setLoading(true);
+    let url = `${serverIP}/api/wchat/`;
+    props.setLoading(true);
     axios
       .post(url, form_data, {
         headers: {
@@ -25,9 +40,17 @@ function FileUploaderPane(props) {
         // console.log(res.data);
         props.setChat(res.data);
       })
-      .catch((err) => console.log(err))
+      .catch((error) => {
+        if (error.response.status == 400) {
+          props.showAlert("Unsupported File !!!", "danger");
+        } else if (error.response.status == 500) {
+          props.showAlert("Servor Error !!!", "danger");
+        } else {
+          props.showAlert("Some Error Occured !!!", "danger");
+        }
+      })
       .finally(() => {
-        setLoading(false);
+        props.setLoading(false);
       });
   };
   return (
@@ -53,12 +76,16 @@ function FileUploaderPane(props) {
               }}
             />
           </p>
-          <Button
-            btnText="Submit"
-            mode={props.mode}
-            btnType="success"
-            onClick={handleSubmit}
-          />
+          {props.loading ? (
+            ""
+          ) : (
+            <Button
+              btnText="Submit"
+              mode={props.mode}
+              btnType="success"
+              onClick={handleSubmit}
+            />
+          )}
         </form>
       </div>
     </div>

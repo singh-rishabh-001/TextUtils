@@ -28,10 +28,10 @@ DEBUG = True
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", ]
 
 # CORS_ALLOW_ALL_ORIGINS = True
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
-    "http://localhost:5000", "http://localhost:8000",
+    "http://localhost:3000", "http://localhost:8000",
 ]
 CORS_ORIGIN_REGEX_WHITELIST = [
     "http://localhost:3000", "http://localhost:8000",

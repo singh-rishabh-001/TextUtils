@@ -63,6 +63,7 @@ class ChatView(APIView):
                     print("--------------------------------------")
                     print(e)
                     print("--------------------------------------")
+            return Response(data=chat, status=status.HTTP_200_OK)
         else:
             print(chat_serializer.error_messages)
-        return Response(data=chat, status=status.HTTP_200_OK)
+            return Response(data=chat_serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
