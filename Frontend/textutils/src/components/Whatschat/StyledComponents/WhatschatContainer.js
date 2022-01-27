@@ -1,6 +1,12 @@
 import styled from "styled-components";
 
+/*
+  1. loading: (true or false) signifies whether the api call going on or not 
+    used here to set the opacity of the page
+*/
+
 const WhatschatContainer = styled.div`
+  opacity: ${(props) => (props.loading ? "0.3" : "1")};
   @media screen and (min-width: 750px) {
     display: grid;
     grid: 100%;

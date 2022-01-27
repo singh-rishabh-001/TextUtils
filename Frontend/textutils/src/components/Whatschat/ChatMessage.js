@@ -2,6 +2,14 @@ import React from "react";
 import Date from "./Date";
 import MessageContainer from "./StyledComponents/MessageContainer";
 import MessageWrapper from "./StyledComponents/MessageWrapper";
+
+/*
+ 1. key : unique identification for reactjs dom
+ 2. item: the dictionary values of the chat i.e. person,date, message, time
+ 3. you: it the name of the person u want the chat in right side of pane
+ 4. mode : its values are "dark" or "light", which tells whether the application in dark or light mode
+
+*/
 function ChatMessage(props) {
   return (
     <>

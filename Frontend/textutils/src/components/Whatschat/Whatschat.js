@@ -11,22 +11,20 @@ function Whatschat(props) {
 */
 
   const [chat, setChat] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(0);
   const [you, setYou] = useState("NULL");
   return (
     <>
       {loading ? <LoadingWheel /> : ""}
-      <WhatschatContainer>
-        <div style={item1Style}>
-          <FileUploaderPane
-            setChat={setChat}
-            mode={props.mode}
-            loading={loading}
-            setLoading={setLoading}
-            showAlert={props.showAlert}
-            setYou={setYou}
-          />
-        </div>
+      <WhatschatContainer loading={loading}>
+        <FileUploaderPane
+          setChat={setChat}
+          mode={props.mode}
+          loading={loading}
+          setLoading={setLoading}
+          showAlert={props.showAlert}
+          setYou={setYou}
+        />
         <div style={item2Style}>
           <ChatPane chat={chat} you={you} mode={props.mode} />
         </div>
@@ -34,13 +32,10 @@ function Whatschat(props) {
     </>
   );
 }
-const item1Style = {
-  // ls
-};
 const item2Style = {
   overflowY: "scroll",
   scrollbarColor: "rgba(var(--black-rgb),.2) rgba(var(--white-rgb),.1)",
-  scrollbarWidth: "thin",
+  scrollbarWidth: "auto",
   border: "1px solid gray",
 };
 

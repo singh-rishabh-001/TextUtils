@@ -1,4 +1,9 @@
 import React from "react";
+/*
+1. date: value of date to show
+2. mode : its values are "dark" or "light", which tells whether the application in dark or light mode
+
+*/
 
 function Date(props) {
   return (

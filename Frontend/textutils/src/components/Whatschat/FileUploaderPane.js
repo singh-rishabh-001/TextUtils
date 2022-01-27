@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Button from "../Utils/Button";
 import serverIP from "../../Server";
+import WhoAreYou from "./WhoAreYou";
 import FileUploaderPaneContainer from "./StyledComponents/FileUploaderPaneContainer";
 function FileUploaderPane(props) {
   /*
@@ -15,11 +16,12 @@ function FileUploaderPane(props) {
 
   const [chatFile, setChatFile] = useState(null);
   const [persons, setPersons] = useState(null);
+  const [requestSent, setRequestSent] = useState(false);
   const handleChatFile = (event) => {
     setChatFile(event.target.files[0]);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!chatFile) {
       props.showAlert("Select a txt file!!", "danger");
@@ -30,8 +32,9 @@ function FileUploaderPane(props) {
     let form_data = new FormData();
     form_data.append("chatfile", chatFile, chatFile.name);
     let url = `${serverIP}/api/wchat/`;
-    props.setLoading(true);
-    axios
+    props.setLoading(1);
+    setRequestSent(true);
+    await axios
       .post(url, form_data, {
         headers: {
           "content-type": "multipart/form-data",
@@ -42,17 +45,21 @@ function FileUploaderPane(props) {
         props.setChat(res.data[1]);
       })
       .catch((error) => {
-        if (error.response.status === 400) {
-          props.showAlert("Unsupported File !!!", "danger");
-        } else if (error.response.status === 500) {
-          props.showAlert("Servor Error !!!", "danger");
-        } else {
-          props.showAlert("Some Error Occured !!!", "danger");
+        try {
+          if (error.response.status === 400) {
+            props.showAlert("Unsupported File !!!", "danger");
+          } else if (error.response.status === 500) {
+            props.showAlert("Servor Error !!!", "danger");
+          } else {
+            props.showAlert("Some Error Occured !!!", "danger");
+          }
+        } catch (error) {
+          props.showAlert("Server Down!!!, Please try later...", "danger");
         }
       })
       .finally(() => {
-        props.setLoading(false);
-      });
+        props.setLoading(0);
+      });    
   };
   const handleOnChange = (e) => {
     props.setYou(e.target.value);
@@ -81,25 +88,15 @@ function FileUploaderPane(props) {
             />
           </p>
 
-          <p>
-            <label>Who are you?</label>
-            <br />
-            <select id="whoareyou" onChange={handleOnChange} defaultValue={""}>
-              <option value="">--Select--</option>
-              {persons
-                ? persons.map((item, index) => (
-                    <option value={item} key={index}>
-                      {item}
-                    </option>
-                  ))
-                : ""}
-            </select>
-          </p>
-          {props.loading ? (
-            ""
+          {props.loading || requestSent ? (
+            <WhoAreYou
+              onChange={handleOnChange}
+              dropValues={persons}
+              mode={props.mode}
+            />
           ) : (
             <Button
-              btnText="Submit"
+              btnText="Get Conversation"
               mode={props.mode}
               btnType="success"
               onClick={handleSubmit}

@@ -1,5 +1,7 @@
 import styled from "styled-components";
-
+/*
+  1. mode : its values are "dark" or "light", which tells whether the application in dark or light mode
+*/
 const FileUploaderPaneContainer = styled.div`
   background-image: ${(props) =>
     props.mode === "light"
